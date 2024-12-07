@@ -65,7 +65,7 @@ const Home = () => {
     <section className="max-w-7xl mx-auto">
 
         <div className="text-center">
-          <h1 className="font-extrabold text-[#dededf] text-[48px]">Prompter</h1>
+          <h1 className="font-extrabold text-[#dededf] text-[48px]">AI Prompter</h1>
         </div>
 
       <div className="mt-16">

@@ -122,13 +122,14 @@ const CreatePost = () => {
 
   return (
     <section className="max-w-7xl mx-auto">
-      <div>
-        <h1 className="font-extrabold text-[#e0e3f1] text-[32px]">Create</h1>
-        <p className="mt-2 text-[#dfe4e8] text-[14px] max-w-[500px]">Dale una idea a prompter, transformará tu prompt en uno detallado y te dará una imagen de calidad</p>
-      </div>
+    <div>
+      <h1 className="font-extrabold text-[#e0e3f1] text-[32px]">Create</h1>
+      <p className="mt-2 text-[#dfe4e8] text-[14px] max-w-[500px]">Dale una idea a prompter, transformará tu prompt en uno detallado y te dará una imagen de calidad</p>
+    </div>
 
-      <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-5">
+    <form className="mt-16 max-w-full" onSubmit={handleSubmit}>
+      <div className="md:flex md:gap-10">
+        <div className="md:w-1/2 flex flex-col gap-5">
           <FormField
             labelName="Your Name"
             type="text"
@@ -151,49 +152,51 @@ const CreatePost = () => {
               <p className="text-[#666e75] text-[14px]">{assistantResponse}</p>
             </div>
           )}
-          <div className="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-64 p-3 h-64 flex justify-center items-center">
-            { form.photo ? (
-              <img
-                src={form.photo}
-                alt={assistantResponse}
-                className="w-full h-full object-contain"
-              />
-            ) : (
-              <img
-                src={preview}
-                alt="preview"
-                className="w-9/12 h-9/12 object-contain opacity-40"
-              />
-            )}
-
-            {generatingImg && (
-              <div className="absolute inset-0 z-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)] rounded-lg">
-                <Loader />
-              </div>
-            )}
-          </div>
         </div>
 
-        <div className="mt-5 flex gap-5">
-          <button
-            type="submit"
-            className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-          >
-            {generatingImg ? 'Generating...' : 'Create'}
-          </button>
+        <div className="md:w-1/2 relative border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-3 h-96 flex justify-center items-center">
+          {form.photo ? (
+            <img
+              src={form.photo}
+              alt={assistantResponse}
+              className="w-full h-full object-contain"
+            />
+          ) : (
+            <img
+              src={preview}
+              alt="preview"
+              className="w-9/12 h-9/12 object-contain"
+            />
+          )}
+
+          {generatingImg && (
+            <div className="absolute inset-0 z-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)] rounded-lg">
+              <Loader />
+            </div>
+          )}
         </div>
-        <div className="mt-10">
-          <p className="mt-2 text-[#666e75] text-[14px]">** Once you have created the image you want, you can share it with others in the community **</p>
-          <button
-            type="button"
-            onClick={handleShare}
-            className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-          >
-            {loading ? 'Sharing...' : 'Share with the Community'}
-          </button>
-        </div>
-      </form>
-    </section>
+      </div>
+
+      <div className="mt-5 flex gap-5">
+        <button
+          type="submit"
+          className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+        >
+          {generatingImg ? 'Generating...' : 'Create'}
+        </button>
+      </div>
+      <div className="mt-10">
+        <p className="mt-2 text-[#666e75] text-[14px]">** Once you have created the image you want, you can share it with others in the community **</p>
+        <button
+          type="button"
+          onClick={handleShare}
+          className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+        >
+          {loading ? 'Sharing...' : 'Share with the Community'}
+        </button>
+      </div>
+    </form>
+  </section>
   );
 };
 
