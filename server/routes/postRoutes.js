@@ -25,8 +25,10 @@ router.route('/').get(async (req, res) => {
 
 router.route('/').post(async (req, res) => {
   try {
-    const { name, prompt, photo } = req.body;
-
+    let { name, prompt, photo } = req.body;
+    if (!name) {
+      name = 'Helicon';
+    }
     // Subir la imagen a Cloudinary
     const photoUrl = await cloudinary.uploader.upload(photo);
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import CreatePost from './CreatePost.jsx';
 import { Card, FormField, Loader } from '../components';
+import { kirby } from '../assets/index.js';
 
 const RenderCards = ({ data, title }) => {
   if (data?.length > 0) {
@@ -64,6 +65,7 @@ const Home = () => {
   return (
     <section className="max-w-7xl mx-auto">
 
+<img src={kirby} alt="Kirby" className="mx-auto w-80 h-80 float" />
         <div className="text-center">
           <h1 className="font-extrabold text-[#dededf] text-[48px]">AI Prompter</h1>
         </div>
