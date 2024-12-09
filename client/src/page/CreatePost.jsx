@@ -17,11 +17,21 @@ const CreatePost = () => {
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null); // Nuevo estado para la vista previa de la imagen
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
   const handleAssistantChange = (e) => setAssistantMessage(e.target.value);
-  const handleImageChange = (e) => setImageFile(e.target.files[0]);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file)); // Establecer la URL de la imagen seleccionada
+  };
+
+  const handleImageRemove = () => {
+    setImageFile(null);
+    setImagePreview(null);
+  };
 
   const convertBlobToBase64 = (blob) => {
     return new Promise((resolve, reject) => {
@@ -36,7 +46,7 @@ const CreatePost = () => {
     if (prompt) {
       try {
         setGeneratingImg(true);
-        const response = await fetch('https://propmter.onrender.com/api/v1/dalle', {
+        const response = await fetch('http://localhost:8080/api/v1/dalle', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -76,7 +86,7 @@ const CreatePost = () => {
   
     if (assistantMessage) {
       try {
-        const response = await fetch('https://propmter.onrender.com/api/v1/assistant', {
+        const response = await fetch('http://localhost:8080/api/v1/assistant', {
           method: 'POST',
           body: formData,
         });
@@ -103,7 +113,7 @@ const CreatePost = () => {
     if (form.prompt && form.photo) {
       setLoading(true);
       try {
-        const response = await fetch('https://propmter.onrender.com/api/v1/post', {
+        const response = await fetch('http://localhost:8080/api/v1/post', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -166,6 +176,18 @@ const CreatePost = () => {
                 </label>
                 <p className="ml-2 text-sm text-gray-500">PNG, JPG, GIF up to 10MB</p>
               </div>
+              {imagePreview && (
+                <div className="relative mt-5 w-32 h-32">
+                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                  <button
+                    type="button"
+                    onClick={handleImageRemove}
+                    className="absolute top-1 right-1 bg-[#383738] text-white rounded-full p-1"
+                  >
+                    X
+                  </button>
+                </div>
+              )}
               {assistantResponse && (
                 <div className="mt-5">
                   <p className="text-[#666e75] text-[14px]">{assistantResponse}</p>
