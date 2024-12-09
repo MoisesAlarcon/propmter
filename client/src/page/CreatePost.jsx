@@ -160,7 +160,7 @@ const CreatePost = () => {
               handleChange={handleAssistantChange}
             />
             <div className="flex flex-col items-left">
-              <label className="block text-sm font-medium text-white">También puedes añadir una iamgen y crear similares o modificarlas </label>
+              <label className="block text-sm font-medium text-white">También puedes añadir una imagen y crear similares o modificarlas </label>
               <div className="mt-1 flex items-center">
                 <label
                   htmlFor="file-upload"
