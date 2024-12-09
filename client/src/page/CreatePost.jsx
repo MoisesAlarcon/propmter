@@ -46,7 +46,7 @@ const CreatePost = () => {
     if (prompt) {
       try {
         setGeneratingImg(true);
-        const response = await fetch('http://localhost:8080/api/v1/dalle', {
+        const response = await fetch('https://propmter.onrender.com/api/v1/dalle', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -79,14 +79,14 @@ const CreatePost = () => {
     setGeneratingImg(true); // Establecer el estado generatingImg en true al inicio
   
     const formData = new FormData();
-    formData.append('message', assistantMessage);
+    formData.append('message', assistantMessage || 'prompt'); // Completar con "prompt" si está vacío
     if (imageFile) {
       formData.append('image', imageFile);
     }
   
-    if (assistantMessage) {
+    if (assistantMessage || imageFile) {
       try {
-        const response = await fetch('http://localhost:8080/api/v1/assistant', {
+        const response = await fetch('https://propmter.onrender.com/api/v1/assistant', {
           method: 'POST',
           body: formData,
         });
@@ -95,30 +95,32 @@ const CreatePost = () => {
         setAssistantResponse(data.response);
   
         // Generate image with assistant's response as prompt
-        await generateImage(data.response);
+        if (assistantMessage) {
+          await generateImage(data.response);
+        }
       } catch (err) {
         alert(err);
       } finally {
         setGeneratingImg(false); // Establecer el estado generatingImg en false al finalizar
       }
     } else {
-      alert('Please provide a message for the assistant');
-      setGeneratingImg(false); // Establecer el estado generatingImg en false si no hay mensaje
+      alert('Please provide a message for the assistant or upload an image');
+      setGeneratingImg(false); // Establecer el estado generatingImg en false si no hay mensaje ni imagen
     }
   };
 
   const handleShare = async (e) => {
     e.preventDefault();
 
-    if (form.prompt && form.photo) {
+    if (form.photo) {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:8080/api/v1/post', {
+        const response = await fetch('https://propmter.onrender.com/api/v1/post', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ ...form }),
+          body: JSON.stringify({ ...form, prompt: form.prompt || 'prompt' }), // Completar con "prompt" si está vacío
         });
 
         if (response.ok) {
