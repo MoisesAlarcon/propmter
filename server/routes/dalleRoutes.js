@@ -1,9 +1,10 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import Replicate from 'replicate';
-import { writeFile } from 'node:fs/promises';
+import { writeFile, unlink } from 'node:fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { v2 as cloudinary } from 'cloudinary';
 
 dotenv.config();
 
@@ -11,6 +12,12 @@ const router = express.Router();
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
+});
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 // Definir __dirname
@@ -38,7 +45,13 @@ router.route('/').post(async (req, res) => {
       const filePath = path.join(__dirname, 'output.jpg');
       await writeFile(filePath, output);
 
-      res.sendFile(filePath);
+      // Subir la imagen a Cloudinary
+      const photoUrl = await cloudinary.uploader.upload(filePath);
+
+      // Eliminar el archivo temporal
+      await unlink(filePath);
+
+      res.status(200).json({ success: true, url: photoUrl.url });
     } else {
       throw new Error('No image generated');
     }

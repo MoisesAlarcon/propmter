@@ -126,7 +126,7 @@ const CreatePost = () => {
         if (response.ok) {
           await response.json();
           alert('Success');
-          navigate('/');
+          window.location.reload(); // Recargar la página después de compartir la imagen
         } else {
           const errorData = await response.json();
           alert(`Error: ${errorData.message}`);
