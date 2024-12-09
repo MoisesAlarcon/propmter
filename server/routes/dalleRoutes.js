@@ -45,13 +45,16 @@ router.route('/').post(async (req, res) => {
       const filePath = path.join(__dirname, 'output.jpg');
       await writeFile(filePath, output);
 
-      // Subir la imagen a Cloudinary
+      // Enviar la imagen generada directamente al frontend
+      res.sendFile(filePath);
+
+      // Subir la imagen a Cloudinary de forma separada
       const photoUrl = await cloudinary.uploader.upload(filePath);
 
       // Eliminar el archivo temporal
       await unlink(filePath);
 
-      res.status(200).json({ success: true, url: photoUrl.url });
+      console.log('Image uploaded to Cloudinary:', photoUrl.url);
     } else {
       throw new Error('No image generated');
     }
