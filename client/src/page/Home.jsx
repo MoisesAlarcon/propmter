@@ -28,7 +28,7 @@ const Home = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('https://propmter.onrender.com/api/v1/post', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/post`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

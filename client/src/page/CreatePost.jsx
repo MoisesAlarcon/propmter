@@ -46,7 +46,7 @@ const CreatePost = () => {
     if (prompt) {
       try {
         setGeneratingImg(true);
-        const response = await fetch('https://propmter.onrender.com/api/v1/dalle', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/dalle`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const CreatePost = () => {
   
     if (assistantMessage || imageFile) {
       try {
-        const response = await fetch('https://propmter.onrender.com/api/v1/assistant', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/assistant`, {
           method: 'POST',
           body: formData,
         });
@@ -115,7 +115,7 @@ const CreatePost = () => {
     if (form.photo) {
       setLoading(true);
       try {
-        const response = await fetch('https://propmter.onrender.com/api/v1/post', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/post`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
