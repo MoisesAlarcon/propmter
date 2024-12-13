@@ -14,6 +14,11 @@ const Login = () => {
       setIsLoading(false);
     }, 3000);
   }
+
+  const handleGoogleLogin = () => {
+    setIsLoading(true);
+    window.location.href = `${import.meta.env.VITE_API_URL}/api/v1/auth/google`;
+  };
   return (
     <div className="flex items-center justify-center w-full h-[80vh] p-4">
     <Link
@@ -40,11 +45,11 @@ const Login = () => {
                     id="email"
                     placeholder="name@example.com"
                     type="email"
-                    autoCapitalize="none"
+                    autoCapitalize="none text-white"
                     autoComplete="email"
                     autoCorrect="off"
                     disabled={isLoading}
-                    className="w-full rounded-md border-[0.5px] bg-[#09090b] border-[#27272a] p-2 focus:border-[#e5e7eb] focus:outline-none"
+                    className="w-full rounded-md border-[0.5px] bg-[#09090b] border-[#27272a] p-2 focus:border-[#e5e7eb] focus:outline-none text-white"
                   />
                 </div>
                 <label className="sr-only" htmlFor="email">
@@ -54,11 +59,11 @@ const Login = () => {
                     id="password"
                     placeholder="password"
                     type="email"
-                    autoCapitalize="none"
+                    autoCapitalize="none text-white"
                     autoComplete="email"
                     autoCorrect="off"
                     disabled={isLoading}
-                    className="w-full rounded-md border-[0.5px] bg-[#09090b] border-[#27272a] p-2 focus:border-[#e5e7eb] focus:outline-none"
+                    className="w-full rounded-md border-[0.5px] bg-[#09090b] border-[#27272a] p-2 focus:border-[#e5e7eb] focus:outline-none text-white"
                   />
                 <button
                   disabled={isLoading}
@@ -84,6 +89,7 @@ const Login = () => {
             <button
               type="button"
               disabled={isLoading}
+              onClick={handleGoogleLogin}
               className={`flex items-center justify-center w-full rounded-md border border-[#27272a] p-2 text-[#fafafa] hover:bg-[#27272a] disabled:bg-gray-200`}
             >
               {isLoading ? (

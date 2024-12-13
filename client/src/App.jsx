@@ -6,19 +6,12 @@ import { Home, CreatePost } from './page';
 import Login from './page/auth/Login';
 import Register from './page/auth/Register';
 
-const App = () => (
-  <BrowserRouter>
-    <AppContent />
-  </BrowserRouter>
-);
-
 const AppContent = () => {
   const location = useLocation();
-  const shouldShowHeader = !['/login', '/register'].includes(location.pathname);
 
   return (
     <>
-      {shouldShowHeader && (
+      {location.pathname !== '/login' && (
         <header className="w-full flex justify-between items-center bg-[#080909] sm:px-8 px-4 py-4 pt-8">
           <Link to="/">
             <img src={logo} alt="logo" className="w-[170px] object-contain" />
@@ -35,6 +28,14 @@ const AppContent = () => {
         </Routes>
       </main>
     </>
+  );
+};
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 };
 

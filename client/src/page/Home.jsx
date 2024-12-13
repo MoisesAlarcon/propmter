@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-
 import CreatePost from './CreatePost.jsx';
 import { Card, FormField, Loader } from '../components';
 import { kirby } from '../assets/index.js';
+import { useNavigate } from 'react-router-dom';
 
 const RenderCards = ({ data, title }) => {
   if (data?.length > 0) {
@@ -17,6 +17,29 @@ const RenderCards = ({ data, title }) => {
 };
 
 const Home = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const user = params.get('user');
+    if (token && user) {
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', user);
+      setUser(JSON.parse(decodeURIComponent(user)));
+    } else {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(decodeURIComponent(storedUser)));
+      }
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    console.log('User:', user);
+  }, [user]);
+
   const [loading, setLoading] = useState(false);
   const [allPosts, setAllPosts] = useState(null);
 
@@ -62,13 +85,34 @@ const Home = () => {
     );
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+    navigate('/');
+  };
+
   return (
     <section className="max-w-7xl mx-auto">
-
-<img src={kirby} alt="Kirby" className="mx-auto w-80 h-80 float" />
-        <div className="text-center">
-          <h1 className="font-extrabold text-[#dededf] text-[48px]">AI Prompter</h1>
+      {user && (
+        <div className="flex items-center justify-end p-4">
+          <img 
+            src={user.imageUrl} 
+            alt={user.username} 
+            className="w-10 h-10 rounded-full mr-2" 
+            onError={(e) => {
+              console.error('Error loading image:', e);
+              e.target.src = 'https://via.placeholder.com/150'; // URL de imagen de respaldo
+            }}
+          />
+          <span className="text-white">{user.username} ({user.tokens} monedas)</span>
+          <button onClick={handleLogout} className="ml-4 p-2 bg-red-500 text-white rounded">Logout</button>
         </div>
+      )}
+      <img src={kirby} alt="Kirby" className="mx-auto w-80 h-80 float" />
+      <div className="text-center">
+        <h1 className="font-extrabold text-[#dededf] text-[48px]">AI Prompter</h1>
+      </div>
 
       <div className="mt-16">
         <CreatePost />

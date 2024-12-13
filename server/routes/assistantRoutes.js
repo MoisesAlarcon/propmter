@@ -64,23 +64,43 @@ router.route('/').post(upload.single('image'), async (req, res) => {
       assistant_id: 'asst_EqKYBl1rJlVb5gIQREaKerUU',
     });
 
-    while (true) {
-      const runInfo = await openai.beta.threads.runs.retrieve(thread.id, run.id);
-      if (runInfo.status === 'completed') {
-        break;
+    const MAX_ATTEMPTS = 15; // Número máximo de intentos
+
+    async function waitForCompletion(threadId, runId) {
+      let attempts = 0;
+
+      while (attempts < MAX_ATTEMPTS) {
+        const runInfo = await openai.beta.threads.runs.retrieve(threadId, runId);
+        if (runInfo.status === 'completed') {
+          console.log('Completed successfully.');
+          return true;
+        }
+        console.log('Waiting 1 sec for completion...');
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        attempts++;
       }
-      console.log('Waiting 1 sec for completion...');
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      if (attempts >= MAX_ATTEMPTS) {
+        console.error('Max attempts reached. Exiting...');
+        return false;
+      }
     }
 
-    const messagesList = await openai.beta.threads.messages.list(thread.id);
-    const responseMessage = messagesList.data[0].content[0].text.value;
+    // Llama a la función y espera a que se complete
+    const isCompleted = await waitForCompletion(thread.id, run.id);
 
-    // Log the response in the backend console
-    console.log('Response from OpenAI:', responseMessage);
+    if (isCompleted) {
+      const messagesList = await openai.beta.threads.messages.list(thread.id);
+      const responseMessage = messagesList.data[0].content[0].text.value;
 
-    // Send the response back to the frontend
-    res.json({ response: responseMessage });
+      // Log the response in the backend console
+      console.log('Response from OpenAI:', responseMessage);
+
+      // Send the response back to the frontend
+      res.json({ response: responseMessage });
+    } else {
+      res.status(500).json({ error: 'Max attempts reached without completion' });
+    }
   } catch (error) {
     console.error('Error from OpenAI API:', error.response ? error.response.data : error.message);
     res.status(500).send(error.response ? error.response.data : error.message);
