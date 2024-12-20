@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { preview } from '../assets';
@@ -17,15 +17,23 @@ const CreatePost = () => {
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null); // Nuevo estado para la vista previa de la imagen
+  const [imagePreview, setImagePreview] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(decodeURIComponent(storedUser)));
+    }
+  }, []);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
   const handleAssistantChange = (e) => setAssistantMessage(e.target.value);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
-    setImagePreview(URL.createObjectURL(file)); // Establecer la URL de la imagen seleccionada
+    setImagePreview(URL.createObjectURL(file));
   };
 
   const handleImageRemove = () => {
@@ -62,8 +70,8 @@ const CreatePost = () => {
 
         const blob = await response.blob();
         const base64Image = await convertBlobToBase64(blob);
-        setForm({ ...form, photo: base64Image, prompt }); // Actualizar form con photo y prompt
-        setErrorMessage(''); // Clear any previous error message
+        setForm({ ...form, photo: base64Image, prompt });
+        setErrorMessage('');
       } catch (err) {
         setErrorMessage('Hay contenido inválido en el prompt');
       } finally {
@@ -76,13 +84,24 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setGeneratingImg(true); // Establecer el estado generatingImg en true al inicio
+  
+    if (user.tokens < 15) {
+      setErrorMessage('No tienes suficientes créditos');
+      return;
+    }
+  
+    setGeneratingImg(true);
   
     const formData = new FormData();
-    formData.append('message', assistantMessage || 'prompt'); // Completar con "prompt" si está vacío
+    formData.append('message', assistantMessage || 'prompt');
+    formData.append('id', user.id); // Cambiar _id a id
     if (imageFile) {
       formData.append('image', imageFile);
     }
+  
+    // Añadir logs para verificar los valores
+    console.log('User ID:', user.id);
+    console.log('User:', user);
   
     if (assistantMessage || imageFile) {
       try {
@@ -94,18 +113,22 @@ const CreatePost = () => {
         const data = await response.json();
         setAssistantResponse(data.response);
   
-        // Generate image with assistant's response as prompt
         if (assistantMessage) {
           await generateImage(data.response);
         }
+  
+        // Actualizar los tokens del usuario en el frontend
+        const updatedUser = { ...user, tokens: data.tokens };
+        localStorage.setItem('user', encodeURIComponent(JSON.stringify(updatedUser)));
+        setUser(updatedUser);
       } catch (err) {
         alert(err);
       } finally {
-        setGeneratingImg(false); // Establecer el estado generatingImg en false al finalizar
+        setGeneratingImg(false);
       }
     } else {
       alert('Please provide a message for the assistant or upload an image');
-      setGeneratingImg(false); // Establecer el estado generatingImg en false si no hay mensaje ni imagen
+      setGeneratingImg(false);
     }
   };
 
@@ -120,13 +143,13 @@ const CreatePost = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ ...form, prompt: form.prompt || 'prompt' }), // Completar con "prompt" si está vacío
+          body: JSON.stringify({ ...form, prompt: form.prompt || 'prompt' }),
         });
 
         if (response.ok) {
           await response.json();
           alert('Success');
-          window.location.reload(); // Recargar la página después de compartir la imagen
+          window.location.reload();
         } else {
           const errorData = await response.json();
           alert(`Error: ${errorData.message}`);
@@ -206,7 +229,7 @@ const CreatePost = () => {
                 type="submit"
                 className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
               >
-                {generatingImg ? 'Generating...' : 'Create'}
+                {generatingImg ? 'Generating...' : 'Create 15 tokens'}
               </button>
             </div>
           </div>

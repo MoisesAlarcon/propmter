@@ -4,7 +4,8 @@ import { OpenAI } from 'openai';
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'url'; // Importa el modelo de usuario
+import User from '../mongodb/models/user.js';
 
 dotenv.config();
 
@@ -23,8 +24,13 @@ const upload = multer({ storage: storage });
 
 router.route('/').post(upload.single('image'), async (req, res) => {
   try {
-    const { message } = req.body;
+    const { message, id } = req.body; 
+    console.log('User ID:', id); // Añadir este log para verificar el valor de id
     let fileId = null;
+
+    if (!id) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
 
     if (req.file) {
       // Save the file temporarily
@@ -96,8 +102,21 @@ router.route('/').post(upload.single('image'), async (req, res) => {
       // Log the response in the backend console
       console.log('Response from OpenAI:', responseMessage);
 
+      // Deduct 15 tokens from the user
+      const user = await User.findById(id); // Cambiar _id a id
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      if (user.tokens < 15) {
+        return res.status(400).json({ message: 'Not enough tokens' });
+      }
+
+      user.tokens -= 15;
+      await user.save();
+
       // Send the response back to the frontend
-      res.json({ response: responseMessage });
+      res.json({ response: responseMessage, tokens: user.tokens });
     } else {
       res.status(500).json({ error: 'Max attempts reached without completion' });
     }

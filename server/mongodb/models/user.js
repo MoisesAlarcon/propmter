@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   googleId: { type: String, required: true, unique: true },
   username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  imageUrl: { type: String, required: true},
+  imageUrl: { type: String, required: true },
   tokens: { type: Number, required: true, default: 30 },
 });
 
