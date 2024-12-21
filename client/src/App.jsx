@@ -5,6 +5,7 @@ import { logo } from './assets';
 import { Home, CreatePost } from './page';
 import Login from './page/auth/Login';
 import Register from './page/auth/Register';
+import Pricing from './page/Pricing';
 
 const AppContent = () => {
   const location = useLocation();
@@ -17,6 +18,7 @@ const AppContent = () => {
             <img src={logo} alt="logo" className="w-[170px] object-contain" />
           </Link>
           <Link to="/login" className="font-inter font-medium bg-[#dfdfdf] text-black px-4 py-2 rounded-md ml-4">Login</Link>
+          <Link to="/pricing" className="font-inter font-medium bg-[#dfdfdf] text-black px-4 py-2 rounded-md ml-4">Pricing</Link>
         </header>
       )}
       <main className="sm:p-8 px-4 py-8 w-full bg-[#080909] min-h-[100vh]">
@@ -25,6 +27,7 @@ const AppContent = () => {
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/pricing" element={<Pricing />} />
         </Routes>
       </main>
     </>

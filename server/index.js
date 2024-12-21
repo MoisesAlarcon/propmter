@@ -10,6 +10,7 @@ import dalleRoutes from './routes/dalleRoutes.js';
 import assistantRoutes from './routes/assistantRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import './config/passportConfig.js';
+import stripeWebhook from './routes/stripeWebhook.js';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUniniti
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/webhook', stripeWebhook);
 app.use('/api/v1/post', postRoutes);
 app.use('/api/v1/dalle', dalleRoutes);
 app.use('/api/v1/assistant', assistantRoutes);
