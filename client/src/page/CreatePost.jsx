@@ -84,39 +84,45 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    if (!user) {
+      setErrorMessage('User data is not loaded yet. Please wait.');
+      return;
+    }
+
     if (user.tokens < 15) {
       setErrorMessage('No tienes suficientes créditos');
       return;
     }
-  
+
     setGeneratingImg(true);
-  
+
     const formData = new FormData();
     formData.append('message', assistantMessage || 'prompt');
-    formData.append('id', user._id); // Cambiar _id a id
+    const userId = user.id || user._id; // Usar id o _id
+    formData.append('id', userId);
     if (imageFile) {
       formData.append('image', imageFile);
     }
-  
+
     // Añadir logs para verificar los valores
-    console.log('User ID:', user._id);
+    console.log('User ID:', userId);
     console.log('User:', user);
-  
+
     if (assistantMessage || imageFile) {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/assistant`, {
           method: 'POST',
           body: formData,
         });
-  
+
         const data = await response.json();
         setAssistantResponse(data.response);
-  
+
         if (assistantMessage) {
           await generateImage(data.response);
         }
-  
+
         // Actualizar los tokens del usuario en el frontend
         const updatedUser = { ...user, tokens: data.tokens };
         localStorage.setItem('user', encodeURIComponent(JSON.stringify(updatedUser)));
