@@ -94,13 +94,13 @@ const CreatePost = () => {
   
     const formData = new FormData();
     formData.append('message', assistantMessage || 'prompt');
-    formData.append('id', user.id); // Cambiar _id a id
+    formData.append('id', user._id); // Cambiar _id a id
     if (imageFile) {
       formData.append('image', imageFile);
     }
   
     // Añadir logs para verificar los valores
-    console.log('User ID:', user.id);
+    console.log('User ID:', user._id);
     console.log('User:', user);
   
     if (assistantMessage || imageFile) {
@@ -229,7 +229,7 @@ const CreatePost = () => {
                 type="submit"
                 className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
               >
-                {generatingImg ? 'Generating...' : 'Create 15 tokens'}
+                {generatingImg ? 'Generando imagen...' : 'Crea una imagen 10 tokens'}
               </button>
             </div>
           </div>

@@ -14,12 +14,16 @@ const AppContent = () => {
     <>
       {location.pathname !== '/login' && (
         <header className="w-full flex justify-between items-center bg-[#080909] sm:px-8 px-4 py-4 pt-8">
+        <div className="flex">
           <Link to="/">
-            <img src={logo} alt="logo" className="w-[170px] object-contain" />
+            <img src={logo} alt="logo" className="w-[170px] object-contain ml-4" />
           </Link>
-          <Link to="/login" className="font-inter font-medium bg-[#dfdfdf] text-black px-4 py-2 rounded-md ml-4">Login</Link>
-          <Link to="/pricing" className="font-inter font-medium bg-[#dfdfdf] text-black px-4 py-2 rounded-md ml-4">Pricing</Link>
-        </header>
+        </div>
+        <div className="flex items-center gap-3">
+          <Link to="/pricing" className="font-inter font-medium text-white px-4 py-2 rounded-md ml-4 hover:bg-gray-700 hover:bg-opacity-50 transition duration-300">Precios</Link>
+          <Link to="/login" className="font-inter font-medium bg-[#dfdfdf] text-black px-4 py-2 rounded-md mr-auto">Login</Link>
+        </div>
+      </header>
       )}
       <main className="sm:p-8 px-4 py-8 w-full bg-[#080909] min-h-[100vh]">
         <Routes>

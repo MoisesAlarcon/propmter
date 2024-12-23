@@ -1,18 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Pricing = () => {
+  const [user, setUser] = useState(null);
   const billingInterval = 'month'; // Fijar el intervalo de facturación a mensual
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(decodeURIComponent(storedUser)));
+    }
+  }, []);
+
   const plans = [
-    { name: 'Starter', description: 'Perfect for starters', prices: { month: 9.99 }, url: 'https://buy.stripe.com/6oEcOk2MZcaG4qk147' },
-    { name: 'Pro', description: 'For growing businesses', prices: { month: 19.99 }, url: 'https://buy.stripe.com/test_4gwbJlge01EJ2RO8ww' },
-    { name: 'Premium', description: 'For large enterprises', prices: { month: 49.99 }, url: 'https://buy.stripe.com/14kdSo0ERdeK0a4bIK' },
+    { name: 'Starter', description: '40 imágenes', prices: { month: 0.99 }, url: 'https://buy.stripe.com/6oEcOk2MZcaG4qk147' },
+    { name: 'Pro', description: '200 imágenes', prices: { month: 19.99 }, url: 'https://buy.stripe.com/test_4gwbJlge01EJ2RO8ww' },
+    { name: 'Premium', description: '700 imágenes', prices: { month: 49.99 }, url: 'https://buy.stripe.com/14kdSo0ERdeK0a4bIK' },
   ];
 
-  const handleChoosePlan = (url) => {
-    window.location.href = url;
+  const handleChoosePlan = (plan) => {
+    if (!user) {
+      alert('User ID is required');
+      return;
+    }
+
+    const paymentUrl = `${plan.url}?client_reference_id=${user.id}`;
+    window.location.href = paymentUrl;
   };
+
 
   return (
     <section className="">
@@ -49,7 +64,7 @@ const Pricing = () => {
                   </p>
                   <button
                     className="block w-full py-2 mt-8 text-sm font-semibold text-center text-white bg-pink-500 rounded-md hover:bg-pink-600"
-                    onClick={() => handleChoosePlan(plan.url)}
+                    onClick={() => handleChoosePlan(plan)}
                   >
                     Choose Plan
                   </button>

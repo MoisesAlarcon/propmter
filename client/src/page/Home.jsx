@@ -3,6 +3,7 @@ import CreatePost from './CreatePost.jsx';
 import { Card, FormField, Loader } from '../components';
 import { kirby } from '../assets/index.js';
 import { useNavigate } from 'react-router-dom';
+import { io } from 'socket.io-client';
 
 const RenderCards = ({ data, title }) => {
   if (data?.length > 0) {
@@ -20,6 +21,30 @@ const Home = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
+  const fetchUser = async () => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const user = JSON.parse(decodeURIComponent(storedUser));
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/auth/me`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
+        if (response.ok) {
+          const updatedUser = await response.json();
+          localStorage.setItem('user', encodeURIComponent(JSON.stringify(updatedUser)));
+          setUser(updatedUser);
+        }
+      } catch (err) {
+        console.error('Error fetching user data:', err);
+      }
+    }
+  };
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
@@ -29,10 +54,7 @@ const Home = () => {
       localStorage.setItem('user', user);
       setUser(JSON.parse(decodeURIComponent(user)));
     } else {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        setUser(JSON.parse(decodeURIComponent(storedUser)));
-      }
+      fetchUser();
     }
   }, [navigate]);
 
@@ -91,6 +113,20 @@ const Home = () => {
     setUser(null);
     navigate('/');
   };
+
+  // WebSocket connection to listen for updates
+  useEffect(() => {
+    const socket = io('http://localhost:8080');
+
+    socket.on('tokensUpdated', (data) => {
+      if (data.userId === user?._id) {
+        setUser((prevUser) => ({ ...prevUser, tokens: data.tokens }));
+        localStorage.setItem('user', encodeURIComponent(JSON.stringify({ ...user, tokens: data.tokens })));
+      }
+    });
+
+    return () => socket.disconnect();
+  }, [user]);
 
   return (
     <section className="max-w-7xl mx-auto">

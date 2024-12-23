@@ -114,6 +114,10 @@ router.route('/').post(upload.single('image'), async (req, res) => {
 
       user.tokens -= 15;
       await user.save();
+      // Emitir un evento a través de socket.io
+      const io = req.app.get('socketio');
+      console.log('Emitting tokensUpdated event:', { userId: id, tokens: user.tokens }); // Añadir este log
+      io.emit('tokensUpdated', { userId: id, tokens: user.tokens });
 
       // Send the response back to the frontend
       res.json({ response: responseMessage, tokens: user.tokens });
