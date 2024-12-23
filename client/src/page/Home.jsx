@@ -130,21 +130,6 @@ const Home = () => {
 
   return (
     <section className="max-w-7xl mx-auto">
-      {user && (
-        <div className="flex items-center justify-end p-4">
-          <img 
-            src={user.imageUrl} 
-            alt={user.username} 
-            className="w-10 h-10 rounded-full mr-2" 
-            onError={(e) => {
-              console.error('Error loading image:', e);
-              e.target.src = 'https://via.placeholder.com/150'; // URL de imagen de respaldo
-            }}
-          />
-          <span className="text-white">{user.username} ({user.tokens} monedas)</span>
-          <button onClick={handleLogout} className="ml-4 p-2 bg-red-500 text-white rounded">Logout</button>
-        </div>
-      )}
       <img src={kirby} alt="Kirby" className="mx-auto w-80 h-80 float" />
       <div className="text-center">
         <h1 className="font-extrabold text-[#dededf] text-[48px]">AI Prompter</h1>

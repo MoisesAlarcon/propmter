@@ -112,7 +112,7 @@ router.route('/').post(upload.single('image'), async (req, res) => {
         return res.status(400).json({ message: 'Not enough tokens' });
       }
 
-      user.tokens -= 15;
+      user.tokens -= 10;
       await user.save();
       // Emitir un evento a través de socket.io
       const io = req.app.get('socketio');

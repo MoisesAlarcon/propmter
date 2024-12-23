@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 
-const Pricing = () => {
-  const [user, setUser] = useState(null);
+const Pricing = ({ user }) => {
   const billingInterval = 'month'; // Fijar el intervalo de facturación a mensual
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(decodeURIComponent(storedUser)));
-    }
-  }, []);
-
   const plans = [
-    { name: 'Starter', description: '40 imágenes', prices: { month: 0.99 }, url: 'https://buy.stripe.com/6oEcOk2MZcaG4qk147' },
-    { name: 'Pro', description: '200 imágenes', prices: { month: 19.99 }, url: 'https://buy.stripe.com/test_4gwbJlge01EJ2RO8ww' },
-    { name: 'Premium', description: '700 imágenes', prices: { month: 49.99 }, url: 'https://buy.stripe.com/14kdSo0ERdeK0a4bIK' },
+    // { name: 'Starter', description: '40 imágenes', prices: { month: 0.99 }, url: 'https://buy.stripe.com/6oEcOk2MZcaG4qk147' },
+    { name: 'Estandar', description: '1000 créditos', prices: { month: 19.99 }, url: 'https://buy.stripe.com/test_4gwbJlge01EJ2RO8ww' },
+    // { name: 'Premium', description: '700 imágenes', prices: { month: 49.99 }, url: 'https://buy.stripe.com/14kdSo0ERdeK0a4bIK' },
   ];
 
   const handleChoosePlan = (plan) => {
@@ -24,20 +15,19 @@ const Pricing = () => {
       return;
     }
 
-    const paymentUrl = `${plan.url}?client_reference_id=${user.id}`;
+    const paymentUrl = `${plan.url}?client_reference_id=${user._id}`;
     window.location.href = paymentUrl;
   };
-
 
   return (
     <section className="">
       <div className="max-w-6xl px-4 py-8 mx-auto sm:py-24 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
           <h1 className="text-4xl font-extrabold text-white sm:text-center sm:text-6xl">
-            Precios
+            Nuestro Precio
           </h1>
           <p className="max-w-2xl m-auto mt-5 text-xl text-zinc-200 sm:text-center sm:text-2xl">
-            Escoge un plan que funcione para ti
+            Escoge un plan que funcione para ti, puedes cancelar en cualquier momento.
           </p>
         </div>
 

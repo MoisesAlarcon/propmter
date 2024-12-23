@@ -29,7 +29,7 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
         // Actualizar los tokens del usuario
         const user = await User.findById(userId);
         if (user) {
-          user.tokens += 200;
+          user.tokens += 1000;
           await user.save();
           console.log(`Tokens updated for user ${user._id}`);
 
