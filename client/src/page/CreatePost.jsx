@@ -86,7 +86,7 @@ const CreatePost = () => {
     e.preventDefault();
 
     if (!user) {
-      setErrorMessage('User data is not loaded yet. Please wait.');
+      setErrorMessage('Necesitas loguearte para generar una imagen');
       return;
     }
 
