@@ -19,6 +19,15 @@ const Pricing = ({ user }) => {
     window.location.href = paymentUrl;
   };
 
+  const handleUnsubscribe = () => {
+    if (!user) {
+      alert('User ID is required');
+      return;
+    }
+    const unsubscribeUrl = `https://billing.stripe.com/p/login/test_00g7vJ1zR6KT2VG8ww`; // Reemplaza con tu URL de desuscripción de Stripe
+    window.location.href = unsubscribeUrl;
+  };
+
   return (
     <section className="">
       <div className="max-w-6xl px-4 py-8 mx-auto sm:py-24 sm:px-6 lg:px-8">
@@ -62,6 +71,18 @@ const Pricing = ({ user }) => {
               </div>
             );
           })}
+        </div>
+
+        <div className="mt-12 text-center">
+          <p className="text-zinc-200">
+            Si quieres cancelar tu suscripción puedes hacerlo{' '}
+            <button
+              className="text-pink-500 hover:underline"
+              onClick={handleUnsubscribe}
+            >
+              aquí
+            </button>.
+          </p>
         </div>
       </div>
     </section>

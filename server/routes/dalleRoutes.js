@@ -30,11 +30,11 @@ router.route('/').get((req, res) => {
 
 router.route('/').post(async (req, res) => {
   try {
-    const { prompt } = req.body;
+    const { prompt, aspectRatio } = req.body;
 
     const input = {
       prompt,
-      aspect_ratio: "3:2",
+      aspect_ratio: aspectRatio,
     };
 
     const output = await replicate.run("black-forest-labs/flux-1.1-pro-ultra", { input });

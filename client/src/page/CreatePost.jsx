@@ -20,6 +20,11 @@ const CreatePost = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [user, setUser] = useState(null);
+  const [aspectRatio, setAspectRatio] = useState('16:9');
+
+const handleAspectRatioChange = (event) => {
+  setAspectRatio(event.target.value);
+};
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -61,6 +66,7 @@ const CreatePost = () => {
           },
           body: JSON.stringify({
             prompt,
+            aspectRatio,
           }),
         });
 
@@ -206,6 +212,19 @@ const CreatePost = () => {
                   />
                 </label>
                 <p className="ml-2 text-sm text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                <label htmlFor="aspect-ratio" className="block text-sm font-medium text-gray-700">
+                  Seleccionar tamaño de aspecto
+                </label>
+                <select
+                  id="aspect-ratio"
+                  name="aspect-ratio"
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                  onChange={handleAspectRatioChange}
+                >
+                  <option value="16:9">16:9</option>
+                  <option value="4:3">4:3</option>
+                  <option value="9:16">9:16</option>
+                </select>
               </div>
               {imagePreview && (
                 <div className="relative mt-5 w-32 h-32">
