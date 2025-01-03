@@ -180,7 +180,7 @@ const handleAspectRatioChange = (event) => {
     <section className="max-w-7xl mx-auto">
       <div>
         <h1 className="font-extrabold text-[#e0e3f1] text-[32px]">Crea una imagen</h1>
-        <p className="mt-2 text-[#dfe4e8] text-[14px] max-w-[500px]">Dale una idea a prompter, transformará tu prompt en uno detallado y te dará una imagen de mayor calidad</p>
+        <p className="mt-2 text-[#dfe4e8] text-[14px] max-w-[500px]">Dale una idea a prompter, transformará tu prompt en uno detallado y te dará una imagen de mayor calidad o envía una imagen, escribe el prompt y te dará variaciones de la imagen</p>
       </div>
 
       <form className="mt-16 max-w-full" onSubmit={handleSubmit}>
