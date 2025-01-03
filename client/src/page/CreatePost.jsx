@@ -211,7 +211,7 @@ const handleAspectRatioChange = (event) => {
                     onChange={handleImageChange}
                   />
                 </label>
-                <p className="ml-2 text-sm text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                <p className="ml-2 text-sm text-gray-500">PNG, JPG</p>
                 <label htmlFor="aspect-ratio" className="block text-sm font-medium text-gray-700">
                   Seleccionar tamaño de aspecto
                 </label>

@@ -8,6 +8,7 @@ import Login from './page/auth/Login';
 import Register from './page/auth/Register';
 import Pricing from './page/Pricing';
 import Footer from './page/Footer';
+import Avatar from './page/avatar';
 
 const AppContent = () => {
   const location = useLocation();
@@ -88,6 +89,7 @@ const AppContent = () => {
                 <button onClick={handleLogout} className="ml-4 p-2 bg-red-500 text-white rounded">Logout</button>
               </div>
             )}
+            <Link to="/avatar" className="font-inter font-medium text-white px-4 py-2 rounded-md ml-4 hover:bg-gray-700 hover:bg-opacity-50 transition duration-300">Avatar</Link>
             <Link to="/pricing" className="font-inter font-medium text-white px-4 py-2 rounded-md ml-4 hover:bg-gray-700 hover:bg-opacity-50 transition duration-300">Precios</Link>
             {!user && (
               <Link to="/login" className="font-inter font-medium bg-[#dfdfdf] text-black px-4 py-2 rounded-md mr-auto">Login</Link>
@@ -101,6 +103,7 @@ const AppContent = () => {
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/avatar" element={<Avatar />} />
           <Route path="/pricing" element={<Pricing user={user} />} />
         </Routes>
       </main>

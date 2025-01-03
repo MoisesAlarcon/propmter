@@ -1,8 +1,8 @@
 import React from 'react';
-import FacebookIcon from '@mui/icons-material/Facebook';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 
@@ -12,8 +12,8 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center">
           <div className="flex space-x-4 mb-4">
-            <a href="https://www.tiktok.com/@heliconstudio.es?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
-              <FacebookIcon />
+            <a href="https://discord.gg/awsBF6cVgk" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
+              <FontAwesomeIcon icon={faDiscord} />
             </a>
             <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
               <TwitterIcon />
