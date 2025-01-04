@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   imageUrl: { type: String, required: true },
   tokens: { type: Number, required: true, default: 50 },
+  ip: { type: String, required: true, unique: true }, // Nuevo campo IP
 });
 
 const User = mongoose.model('User', UserSchema);

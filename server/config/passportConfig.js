@@ -10,16 +10,26 @@ passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: `${process.env.BASE_URL}/api/v1/auth/google/callback`,
-}, async (accessToken, refreshToken, profile, done) => {
+  passReqToCallback: true, // Permite pasar el objeto req a la función de callback
+// eslint-disable-next-line consistent-return
+}, async (req, accessToken, refreshToken, profile, done) => {
   try {
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress; // Obtener la IP del usuario
     let user = await User.findOne({ googleId: profile.id });
     if (!user) {
+      // Verificar si ya existe un usuario con la misma IP
+      const existingUserWithIp = await User.findOne({ ip });
+      if (existingUserWithIp) {
+        return done(new Error('IP already in use'), null);
+      }
+
       user = new User({
         googleId: profile.id,
         username: profile.displayName,
         email: profile.emails[0].value,
         imageUrl: profile.photos[0].value,
-        tokens: 50, // Inicializar tokens con 30
+        tokens: 50,
+        ip, // Guardar la IP del usuario
       });
       await user.save();
       console.log('New user created:', user);
