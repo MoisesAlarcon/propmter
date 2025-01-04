@@ -12,10 +12,15 @@ export function getRandomPrompt(prompt) {
 
 export const downloadImage = async (id, url) => {
   try {
-    const response = await fetch(url);
+    // Asegúrate de que la URL utiliza HTTPS
+    const secureUrl = url.replace(/^http:\/\//i, 'https://');
+    const response = await fetch(secureUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
     const blob = await response.blob();
     FileSaver.saveAs(blob, `image_${id}.jpg`);
   } catch (error) {
-    console.error('Error downloading the image:', error);
+    console.error('Error downloading the image:', error.message);
   }
 };
