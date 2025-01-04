@@ -12,6 +12,8 @@ import p2 from './p2.jpg';
 import m1 from './m1.webp';
 import m2 from './m2.webp';
 import m3 from './m3.png';
+import discord from './discord.png';
+import instagram from './instagram.png';
 // import e1 from './e1.png';
 // import e2 from './e2.png';
 // import e3 from './e3.png';
@@ -31,6 +33,8 @@ export {
   m1,
   m2,
   m3,
+  instagram,
+  discord,
   // e1,
   // e2,
   // e3,

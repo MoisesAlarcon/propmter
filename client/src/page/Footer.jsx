@@ -18,7 +18,7 @@ const Footer = () => {
             <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
               <TwitterIcon />
             </a>
-            <a href="https://www.instagram.com/helicon.ai?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
+            <a href="https://www.instagram.com/heliconprompter?igsh=MW5maHZuN21yMDg4dw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
               <InstagramIcon />
             </a>
             <a href="mailto:heliconbussines@gmail.com" className="text-white hover:text-gray-400">

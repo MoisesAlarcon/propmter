@@ -28,7 +28,7 @@ const Avatar = () => {
   return (
     <div className="flex flex-col justify-center items-center space-y-4">
       <h1 className="text-4xl font-bold text-white pb-7">Crea tu avatar</h1>
-      <div className="flex justify-center items-center space-x-8">
+      <div className="flex flex-col sm:flex-row justify-center items-center space-y-8 sm:space-y-0 sm:space-x-8">
         <div className="w-80">
           <Slider {...imageSliderSettings}>
             <div>
@@ -39,7 +39,7 @@ const Avatar = () => {
             </div>
           </Slider>
         </div>
-        <span className="text-5xl text-white pr-16 pl-16">→</span>
+        <span className="text-5xl text-white pr-0 sm:pr-16 pl-0 sm:pl-16">→</span>
         <div className="w-80">
           <Slider {...settings}>
             <div>
