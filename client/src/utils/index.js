@@ -10,6 +10,12 @@ export function getRandomPrompt(prompt) {
   return randomPrompt;
 }
 
-export const downloadImage = (id, url) => {
-  FileSaver.saveAs(url, `image-${id}.jpg`);
+export const downloadImage = async (id, url) => {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    FileSaver.saveAs(blob, `image_${id}.jpg`);
+  } catch (error) {
+    console.error('Error downloading the image:', error);
+  }
 };
