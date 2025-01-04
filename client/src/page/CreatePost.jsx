@@ -254,7 +254,7 @@ const handleAspectRatioChange = (event) => {
                 type="submit"
                 className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
               >
-                {generatingImg ? 'Generando imagen...' : 'Crea una imagen 10 tokens'}
+                {generatingImg ? 'Generando imagen...' : 'Crea una imagen 15 tokens'}
               </button>
             </div>
           </div>
