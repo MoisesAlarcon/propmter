@@ -17,11 +17,13 @@ const Card = ({ _id, name, prompt, photo }) => {
 
   return (
     <div className="rounded-xl group relative shadow-card hover:shadow-cardhover card">
-      <img
-        className="w-full h-auto object-cover rounded-xl"
-        src={photo}
-        alt={prompt}
-      />
+      <div className="w-full h-full max-h-[40vh]">
+        <img
+          className="w-full h-full object-cover rounded-xl"
+          src={photo}
+          alt={prompt}
+        />
+      </div>
       <div className="group-hover:flex flex-col max-h-[94.5%] hidden absolute bottom-0 left-0 right-0 bg-[#10131f] m-2 p-4 rounded-md">
         <p className="text-white text-sm overflow-y-auto prompt">{prompt}</p>
 
@@ -43,7 +45,7 @@ const Card = ({ _id, name, prompt, photo }) => {
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-          <div className="relative bg-gray p-4 rounded-lg max-w-3xl w-full">
+          <div className="relative bg-gray-800 p-4 rounded-lg max-w-4xl w-full max-h-[90vh] flex items-center justify-center">
             <button
               type="button"
               onClick={handleCloseModal}
@@ -51,7 +53,9 @@ const Card = ({ _id, name, prompt, photo }) => {
             >
               &times;
             </button>
-            <img src={photo} alt={prompt} className="w-full h-auto object-cover rounded-lg" />
+            <div className="flex items-center justify-center max-w-full max-h-full">
+              <img src={photo} alt={prompt} className="max-w-full max-h-full object-contain rounded-lg" />
+            </div>
           </div>
         </div>
       )}

@@ -19,7 +19,7 @@ passport.use(new GoogleStrategy({
         username: profile.displayName,
         email: profile.emails[0].value,
         imageUrl: profile.photos[0].value,
-        tokens: 100, // Inicializar tokens con 30
+        tokens: 50, // Inicializar tokens con 30
       });
       await user.save();
       console.log('New user created:', user);
