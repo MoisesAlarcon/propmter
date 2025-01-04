@@ -45,7 +45,7 @@ const Card = ({ _id, name, prompt, photo }) => {
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-          <div className="relative bg-gray-800 p-4 rounded-lg max-w-4xl w-full max-h-[90vh] flex items-center justify-center">
+          <div className="relative bg-gray-800 p-4 rounded-lg max-w-[50rem] w-full max-h-[90vh] flex items-center justify-center">
             <button
               type="button"
               onClick={handleCloseModal}
@@ -54,7 +54,7 @@ const Card = ({ _id, name, prompt, photo }) => {
               &times;
             </button>
             <div className="flex items-center justify-center max-w-full max-h-full">
-              <img src={photo} alt={prompt} className="max-w-full max-h-full object-contain rounded-lg" />
+              <img src={photo} alt={prompt} className="max-w-[50rem] max-h-[40rem] object-contain rounded-lg" />
             </div>
           </div>
         </div>
