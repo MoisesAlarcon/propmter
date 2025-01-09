@@ -5,7 +5,7 @@ const Pricing = ({ user }) => {
 
   const plans = [
     // { name: 'Starter', description: '40 imágenes', prices: { month: 0.99 }, url: 'https://buy.stripe.com/6oEcOk2MZcaG4qk147' },
-    { name: 'Estandar', description: '1000 créditos', prices: { month: 19.99 }, url: 'https://buy.stripe.com/test_4gwbJlge01EJ2RO8ww' },
+    { name: 'Estandar', description: '1000 créditos', prices: { month: 19.99 }, url: 'https://buy.stripe.com/cN2bKg2MZ3Ea2ic4gh' },
     // { name: 'Premium', description: '700 imágenes', prices: { month: 49.99 }, url: 'https://buy.stripe.com/14kdSo0ERdeK0a4bIK' },
   ];
 
