@@ -11,7 +11,6 @@ import Footer from './page/Footer';
 import Avatar from './page/avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiscord } from '@fortawesome/free-brands-svg-icons';
-import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 const AppContent = () => {
