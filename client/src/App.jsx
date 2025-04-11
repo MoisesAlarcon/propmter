@@ -74,14 +74,7 @@ const AppContent = () => {
         <Link to="/">
           <img src={logo} alt="logo" className="w-[170px] object-contain ml-4" />
         </Link>
-        <div className="hidden sm:flex items-center gap-[2rem] pl-[7.5rem]">
-           <a href="https://discord.gg/awsBF6cVgk" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400 text-[30px] text-[#5c00b0]">
-                         <FontAwesomeIcon icon={faDiscord} />
-          </a>
-          <a href="https://www.instagram.com/heliconprompter?igsh=MW5maHZuN21yMDg4dw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400 text-[#da5a01] pb-[4px]">
-              <InstagramIcon className='text-[33px]'/>
-          </a>
-        </div>
+        
         <div className="flex items-center gap-3">
           {user && (
             <div className="flex items-center">

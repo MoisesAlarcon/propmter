@@ -67,7 +67,7 @@ router.route('/').post(upload.single('image'), async (req, res) => {
     });
 
     const run = await openai.beta.threads.runs.create(thread.id, {
-      assistant_id: 'asst_EqKYBl1rJlVb5gIQREaKerUU',
+      assistant_id: 'asst_IFvYbPc3kNPHN5e3vPFrYaGS',
     });
 
     const MAX_ATTEMPTS = 15; // Número máximo de intentos
